@@ -1,0 +1,1 @@
+Folder /oldSDK contains L Scan Essentials 6.7.3.4v SDK.

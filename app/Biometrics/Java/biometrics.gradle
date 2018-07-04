@@ -1,0 +1,24 @@
+project.description = project.name
+
+apply plugin: 'application'
+apply from: "../../../../Samples/Common/Java/buildCommon/common.gradle"
+mainClassName = "com.neurotec.tutorials.biometrics." + artifactNameToUpperCamelCase(project.name)
+group = "com.neurotec.tutorials"
+tasks.prepareResources.setEnabled(false)
+tasks.copyScripts.setEnabled(false)
+
+dependencies {
+	compile ":neurotec-core"
+	compile ":neurotec-licensing"
+	compile ":neurotec-gui"
+	compile ":neurotec-media"
+	compile ":neurotec-media-processing"
+	compile ":neurotec-biometrics"
+	compile ":neurotec-biometrics-client"
+	compile ":neurotec-biometrics-gui"
+	compile ":neurotec-devices"
+	compile ":jna"
+	compile project(":tutorials-utils")
+}
+
+apply from: "../../../../Samples/Common/Java/buildCommon/run.gradle"

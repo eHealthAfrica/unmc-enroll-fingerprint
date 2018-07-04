@@ -1,0 +1,1 @@
+java -jar Bin/Java/enroll-finger-from-scanner.jar
