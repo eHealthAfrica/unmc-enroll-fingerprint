@@ -25,9 +25,8 @@ public class FingerScannerUtils {
     NFinger finger = null;
     DeviceCollection devices;
 
-
     public FingerScannerUtils () {
-        this.initDevices();
+        this.initApp();
     }
     
     private void freeFileResource (FileInputStream fStream) {
@@ -59,7 +58,7 @@ public class FingerScannerUtils {
         return encodedBase64;
     }
 
-    public void initDevices () {
+    private void initDevices () {
         this.biometricClient = new NBiometricClient();
         this.biometricClient.setUseDeviceManager(true);
         NDeviceManager deviceManager = this.biometricClient.getDeviceManager();
@@ -69,13 +68,26 @@ public class FingerScannerUtils {
         this.devices = deviceManager.getDevices();
     }
 
-    public void closeResources () {
-        if (this.finger != null) this.finger.dispose();
-        if (this.subject != null) this.subject.dispose();
-        if (this.biometricClient != null) this.biometricClient.dispose();
+    private void initScan () {
+        this.subject = new NSubject();
+        this.finger = new NFinger();
     }
 
-    public String[] getDevicesList () {
+    public void initApp () {
+        System.out.println("init resources");
+        this.initDevices();
+        this.initScan();
+    }
+
+    public void closeResources () {
+        System.out.println("freeing resources");
+
+        if (this.finger != null) { this.finger.dispose(); this.finger = null; }
+        if (this.subject != null) { this.subject.dispose(); this.subject = null; }
+        if (this.biometricClient != null) { this.biometricClient.dispose(); this.biometricClient = null; }
+    }
+
+    public String[] getDeviceList () {
         int total = this.devices.size();
         String[] deviceList = new String[this.devices.size()];
         if (total > 0) {
@@ -103,11 +115,6 @@ public class FingerScannerUtils {
 
     public void selectDevice (int selection) {
         this.biometricClient.setFingerScanner((NFScanner) this.devices.get(selection));
-    }
-
-    public void initScan () {
-        this.subject = new NSubject();
-		this.finger = new NFinger();
     }
 
     public boolean scanFinger (int selection, String imageName, String templateName) {

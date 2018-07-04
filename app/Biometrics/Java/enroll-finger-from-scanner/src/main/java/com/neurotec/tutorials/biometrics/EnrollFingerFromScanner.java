@@ -1,28 +1,10 @@
 package com.neurotec.tutorials.biometrics;
 
-import java.io.IOException;
-import java.util.EnumSet;
-import java.util.Scanner;
-import java.util.Arrays;
-
-import com.neurotec.biometrics.NBiometricStatus;
-import com.neurotec.biometrics.NFinger;
-import com.neurotec.biometrics.NSubject;
-import com.neurotec.biometrics.NTemplateSize;
-import com.neurotec.biometrics.client.NBiometricClient;
-import com.neurotec.devices.NDeviceManager;
-import com.neurotec.devices.NDeviceType;
-import com.neurotec.devices.NFScanner;
-import com.neurotec.devices.NDeviceManager.DeviceCollection;
-import com.neurotec.io.NFile;
-import com.neurotec.lang.NCore;
-import com.neurotec.licensing.NLicense;
-import com.neurotec.tutorials.util.LibraryManager;
-import com.neurotec.tutorials.util.Utils;
 import com.neurotec.tutorials.biometrics.FingerScannerUtils;
+import com.neurotec.tutorials.util.LibraryManager;
 
-import static spark.Spark.*;
 import static com.neurotec.tutorials.biometrics.JsonUtil.*;
+import static spark.Spark.*;
 
 public final class EnrollFingerFromScanner {
     public static void main(String[] args) {
@@ -37,7 +19,7 @@ public final class EnrollFingerFromScanner {
         });
 
         get("/devices", (req, res) -> {
-            String[] devices = fScannerUtils.getDevicesList();
+            String[] devices = fScannerUtils.getDeviceList();
             if (devices.length > 0) {
                 return devices;
             }
@@ -51,11 +33,13 @@ public final class EnrollFingerFromScanner {
         });
 
         get("/scan", (req, res) -> {
+            fScannerUtils.initApp();
+
             if (!fScannerUtils.checkLicense()) {
                 return "Biometric Lib has no license";
             }
 
-            String[] devices = fScannerUtils.getDevicesList();
+            String[] devices = fScannerUtils.getDeviceList();
             if (devices.length == 0) {
                 return "Please connect a device";
             }
@@ -67,10 +51,9 @@ public final class EnrollFingerFromScanner {
             boolean created = fScannerUtils.scanFinger(selected, imageName, templateName);
 
             if (created) {
-                // fScannerUtils.closeResources();
                 return fScannerUtils.mapFiles(imageName, templateName);
             }
             return "finger was not scanned";
-        });
+        }, json());
     }
 }
