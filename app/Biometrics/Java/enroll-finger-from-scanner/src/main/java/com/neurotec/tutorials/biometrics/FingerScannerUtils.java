@@ -1,24 +1,27 @@
 package com.neurotec.tutorials.biometrics;
 
-import java.net.*;
 import java.io.*;
+import java.net.*;
 import java.util.*;
 
-import com.neurotec.biometrics.NBiometricStatus;
 import com.neurotec.biometrics.NFinger;
 import com.neurotec.biometrics.NSubject;
 import com.neurotec.biometrics.NTemplateSize;
 import com.neurotec.biometrics.client.NBiometricClient;
 import com.neurotec.devices.NDeviceManager;
+
+import com.neurotec.devices.NDeviceManager.DeviceCollection;
+
 import com.neurotec.devices.NDeviceType;
 import com.neurotec.devices.NFScanner;
-import com.neurotec.devices.NDeviceManager.DeviceCollection;
 import com.neurotec.io.NFile;
-import com.neurotec.lang.NCore;
 import com.neurotec.licensing.NLicense;
-import com.neurotec.tutorials.util.LibraryManager;
-import com.neurotec.tutorials.util.Utils;
 
+import com.neurotec.biometrics.NBiometricStatus;
+
+/**
+ *
+ */
 public class FingerScannerUtils {
     NBiometricClient biometricClient = null;
     NSubject subject = null;
@@ -45,7 +48,7 @@ public class FingerScannerUtils {
         FileInputStream fileInputStreamReader = null;
         try {
             fileInputStreamReader = new FileInputStream(originalFile);
-            byte[] bytes = new byte[(int)originalFile.length()];
+            byte[] bytes = new byte[(int) originalFile.length()];
             fileInputStreamReader.read(bytes);
             encodedBase64 = new String(Base64.getEncoder().encode(bytes));
         } catch (FileNotFoundException e) {
@@ -91,8 +94,9 @@ public class FingerScannerUtils {
         int total = this.devices.size();
         String[] deviceList = new String[this.devices.size()];
         if (total > 0) {
-            for (int i = 0; i < total; i++)
+            for (int i = 0; i < total; i++) {
                 deviceList[i] = this.devices.get(i).getDisplayName();
+            }
         }
 
         return deviceList;
@@ -125,17 +129,17 @@ public class FingerScannerUtils {
 
         NBiometricStatus status = biometricClient.capture(subject);
 
-			biometricClient.setFingersTemplateSize(NTemplateSize.LARGE);
+            biometricClient.setFingersTemplateSize(NTemplateSize.LARGE);
 
-			status = biometricClient.createTemplate(subject);
+            status = biometricClient.createTemplate(subject);
 
-			if (status == NBiometricStatus.OK) {
-				System.out.println("Template extracted");
-			} else {
-				System.out.format("Extraction failed: %s\n", status);
-				System.exit(-1);
+            if (status == NBiometricStatus.OK) {
+                System.out.println("Template extracted");
+            } else {
+                System.out.format("Extraction failed: %s\n", status);
+                System.exit(-1);
             }
-            
+
             return this.extractDataFromScanner(imageName, templateName);
     }
 
@@ -143,9 +147,9 @@ public class FingerScannerUtils {
         boolean created = false;
         try {
             this.subject.getFingers().get(0).getImage().save(imageName);
-			System.out.println("Fingerprint image saved successfully...");
+            System.out.println("Fingerprint image saved successfully...");
 
-			NFile.writeAllBytes(templateName, this.subject.getTemplate().save());
+            NFile.writeAllBytes(templateName, this.subject.getTemplate().save());
             System.out.println("Template file saved successfully...");
             created = true;
         } catch (Throwable th) {
