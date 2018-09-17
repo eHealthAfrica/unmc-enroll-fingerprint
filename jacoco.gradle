@@ -1,0 +1,16 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.1"
+}
+
+mainClassName = "com.neurotec.tutorials.biometrics.EnrollFingerFromScanner"
+
+jacoco {
+    applyTo run
+}
+
+task applicationCodeCoverageReport(type:JacocoReport){
+    executionData run
+    sourceSets sourceSets.main
+}

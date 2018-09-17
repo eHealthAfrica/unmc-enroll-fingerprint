@@ -16,3 +16,4 @@ cache:
 
 script:
  - gradle checkstyleMain
+ - gradle test jacocoTestCoverageVerification

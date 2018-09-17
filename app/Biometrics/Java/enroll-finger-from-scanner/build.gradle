@@ -3,6 +3,7 @@ project.description = project.name
 apply plugin: 'application'
 
 apply from: "../../../../checkstyle.gradle"
+apply from: "../../../../jacoco.gradle"
 
 // ============================================================================
 // Main
