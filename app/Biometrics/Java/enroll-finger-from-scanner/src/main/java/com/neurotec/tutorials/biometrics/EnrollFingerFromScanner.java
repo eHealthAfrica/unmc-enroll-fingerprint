@@ -1,11 +1,13 @@
 package com.neurotec.tutorials.biometrics;
 
-import com.neurotec.tutorials.biometrics.FingerScannerUtils;
-import com.neurotec.tutorials.util.LibraryManager;
-
 import static com.neurotec.tutorials.biometrics.JsonUtil.*;
 import static spark.Spark.*;
 
+import com.neurotec.tutorials.util.LibraryManager;
+
+/**
+ * Enrollment class.
+ */
 public final class EnrollFingerFromScanner {
     public static void main(String[] args) {
        LibraryManager.initLibraryPath();

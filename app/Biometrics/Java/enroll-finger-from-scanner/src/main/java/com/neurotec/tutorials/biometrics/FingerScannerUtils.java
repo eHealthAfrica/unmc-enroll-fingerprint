@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import com.neurotec.biometrics.NBiometricStatus;
 import com.neurotec.biometrics.NFinger;
 import com.neurotec.biometrics.NSubject;
 import com.neurotec.biometrics.NTemplateSize;
@@ -17,9 +18,9 @@ import com.neurotec.devices.NFScanner;
 import com.neurotec.io.NFile;
 import com.neurotec.licensing.NLicense;
 
-import com.neurotec.biometrics.NBiometricStatus;
 
 /**
+ * A utility class for using the finger scanner device.
  *
  */
 public class FingerScannerUtils {
@@ -85,9 +86,16 @@ public class FingerScannerUtils {
     public void closeResources () {
         System.out.println("freeing resources");
 
-        if (this.finger != null) { this.finger.dispose(); this.finger = null; }
-        if (this.subject != null) { this.subject.dispose(); this.subject = null; }
-        if (this.biometricClient != null) { this.biometricClient.dispose(); this.biometricClient = null; }
+        if (this.finger != null) { 
+            this.finger.dispose(); this.finger = null; 
+        }
+        if (this.subject != null) { 
+            this.subject.dispose(); this.subject = null; 
+        }
+        if (this.biometricClient != null) { 
+            this.biometricClient.dispose(); 
+            this.biometricClient = null; 
+        }
     }
 
     public String[] getDeviceList () {
