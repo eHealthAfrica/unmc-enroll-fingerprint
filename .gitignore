@@ -2,3 +2,5 @@ build
 .idea
 .gradle
 Bin
+.DS_Store
+neurotec-biometric-component-installer.iml
