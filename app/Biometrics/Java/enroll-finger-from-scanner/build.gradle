@@ -234,3 +234,10 @@ jar {
 		)
 	}
 }
+
+task installGitHooks(type: Copy) {
+	from new File(project.productRootDir, '.githooks/pre-push')
+	into { new File(project.productRootDir, '.git/hooks') }
+	fileMode 0777
+}
+tasks.getByPath(':tutorials-utils:compileJava').dependsOn installGitHooks

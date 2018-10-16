@@ -1,0 +1,12 @@
+#!/bin/sh
+ # stash any unstaged changes
+git stash -q --keep-index
+ # run lint & tests with the gradle wrapper
+cd app/Biometrics/Java/enroll-finger-from-scanner
+gradle checkstyleMain
+ # store the last exit code in a variable
+RESULT=$?
+ # unstash the unstashed changes
+git stash pop -q
+ # return the './gradlew test' exit code
+exit $RESULT
